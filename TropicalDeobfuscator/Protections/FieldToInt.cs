@@ -33,10 +33,10 @@ namespace TropicalDeobfuscator.Protections
                             FieldDef IntField = instr[i].Operand as FieldDef;
                             int FieldToken = IntField.MDToken.ToInt32();
 
-                            int[] value = (int[])ReflectionAssembly.ManifestModule.ResolveField(FieldToken).GetValue(null);
+                            int[] value = (int[])ReflectionAssembly.ManifestModule.ResolveField(FieldToken).GetValue(null); //use reflection because i suck at emulation
                             int Index = instr[i + 1].GetLdcI4Value();
 
-                            object realValue = value[Index];
+                            object realValue = value[Index]; 
 
 
                             instr[i].OpCode = OpCodes.Ldc_I4;

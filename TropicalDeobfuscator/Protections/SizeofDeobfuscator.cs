@@ -22,21 +22,15 @@ namespace TropicalDeobfuscator.Protections
                 {
                     if (!Method.HasBody && !Method.Body.HasInstructions)
                         continue;
-
                     var instr = Method.Body.Instructions;
-
                     for (int i = 0; i < instr.Count; i++)
                     {
                         if (instr[i].OpCode == OpCodes.Sizeof)
-                        {
-                           
+                        {                   
                             Type TypeToGet = System.Type.GetType(instr[i].Operand.ToString());
-
                             int realValue = Marshal.SizeOf(TypeToGet);
-
                             instr[i].OpCode = OpCodes.Ldc_I4;
-                            instr[i].Operand = realValue;
-                           
+                            instr[i].Operand = realValue;                       
                             Deobfuscated++;
                         }
                     }

@@ -21,7 +21,7 @@ namespace TropicalDeobfuscator.Protections
                     {
                         foreach(var param in Method.Parameters)
                         {
-                            param.Name = "";
+                            param.Name = ""; /*param names are fucking long laggy as fuck*/
                         }
                     }
                 }

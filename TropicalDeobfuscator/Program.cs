@@ -14,6 +14,7 @@ namespace TropicalDeobfuscator
     {
         static void Main(string[] args)
         {
+            Console.Title = "Tropical Deobfuscator by Yeetret, Thanks to CursedSheep for FieldFixer { FieldToInt.cs }";
             string filename;
            
             try
@@ -41,7 +42,7 @@ namespace TropicalDeobfuscator
             var options = new ModuleWriterOptions(DeobfuscatorContext.Module);
             options.MetadataLogger = DummyLogger.NoThrowInstance;
 
-            DeobfuscatorContext.Module.Write(filename.Replace(".exe","-Deobfuscated.exe"),options);
+            DeobfuscatorContext.Module.Write(filename.Replace(".exe","-Deobfuscated.exe"),options); //ghetto because lol
 
             Console.ReadKey();
         }

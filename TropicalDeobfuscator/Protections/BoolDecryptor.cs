@@ -40,7 +40,7 @@ namespace TropicalDeobfuscator.Protections
 
                             int Value = instr[i].GetLdcI4Value();
                             instr[i].OpCode = OpCodes.Ldc_I4;
-                            instr[i].Operand = Decrypt(Value);
+                            instr[i].Operand = Decrypt(Value); //statically decrypt
                             instr[i + 1].OpCode = OpCodes.Nop;
 
                             Deobfuscated++;

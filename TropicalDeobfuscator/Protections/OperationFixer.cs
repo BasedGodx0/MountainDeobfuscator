@@ -77,7 +77,7 @@ namespace TropicalDeobfuscator.Protections
                 return true;
             return false;
         }
-
+  
         public static void RemoveUnusedNops(this MethodDef MethodDef)
         {
             if (MethodDef.HasBody)
