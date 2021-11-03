@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TropicalDeobfuscator</RootNamespace>
     <AssemblyName>TropicalDeobfuscator</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,6 +60,7 @@
     <Reference Include="dnlib">
       <HintPath>..\..\..\de4dot\Debug\net45\dnlib.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -76,6 +78,7 @@
     <Compile Include="Protections\FieldToInt.cs" />
     <Compile Include="Protections\FixProxy.cs" />
     <Compile Include="Protections\OperationFixer.cs" />
+    <Compile Include="Protections\RemoveJunk.cs" />
     <Compile Include="Protections\ShortenNames.cs" />
     <Compile Include="Protections\SizeofDeobfuscator.cs" />
     <Compile Include="Protections\StringDecryptor.cs" />

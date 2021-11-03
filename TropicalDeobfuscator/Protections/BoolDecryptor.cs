@@ -38,6 +38,8 @@ namespace TropicalDeobfuscator.Protections
                             if (meth.ReturnType != Module.CorLibTypes.Boolean)
                                 continue;
 
+                            DeobfuscatorContext.BoolDecryptionMethod = meth;
+
                             int Value = instr[i].GetLdcI4Value();
                             instr[i].OpCode = OpCodes.Ldc_I4;
                             instr[i].Operand = Decrypt(Value); //statically decrypt

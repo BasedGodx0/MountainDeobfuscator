@@ -10,6 +10,14 @@ namespace TropicalDeobfuscator
 {
     public class DeobfuscatorContext
     {
+
+       
+        public static MethodDef BoolDecryptionMethod
+        {
+            get;
+            set;
+        }
+
         public static ModuleDefMD Module
         {
             get;

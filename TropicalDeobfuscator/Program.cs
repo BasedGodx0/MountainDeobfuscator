@@ -27,17 +27,27 @@ namespace TropicalDeobfuscator
                 filename = Console.ReadLine().Replace("\"", "");
             }
 
-            DeobfuscatorContext.Module = ModuleDefMD.Load(filename);
+            var asmResolver = new AssemblyResolver();
+            asmResolver.DefaultModuleContext = new ModuleContext(asmResolver);
+            DeobfuscatorContext.Module = ModuleDefMD.Load(filename,asmResolver.DefaultModuleContext);
             DeobfuscatorContext.ReflectionAssembly = Assembly.LoadFile(filename);
 
             ShortenNames.Fix();
             Console.WriteLine("Fields Fixed : " + FieldToInt.Fix());
             Console.WriteLine("SizeOfs Fixed : " + SizeofDeobfuscator.Fix());
+            Console.WriteLine("Arithmetic Fixed : " + OperationFixer.FixAirthmethic());
             Console.WriteLine("Operations Fixed : " + OperationFixer.Fix());
+            Console.WriteLine("Arithmetic Fixed : " + OperationFixer.FixAirthmethic());
             Console.WriteLine("ProxyInt Fixed : " + FixProxy.ProxyInt());
             Console.WriteLine("ProxyString Fixed : " + FixProxy.ProxyStrings());
+            Console.WriteLine("ProxyNewObj Fixed : " + FixProxy.ProxyNewObj());
             Console.WriteLine("Booleans Decrypted  : " + BoolDecryptor.Fix());
             Console.WriteLine("Strings Decrypted  : " + StringDecryptor.Fix());
+            Console.WriteLine("Arithmetic Fixed : " + OperationFixer.FixAirthmethic());
+            Console.WriteLine("ProxyBools Fixed : " + FixProxy.ProxyBool());
+            Console.WriteLine("ProxyFloats Fixed : " + FixProxy.ProxyFloat());
+
+            RemoveJunk.Fix();
 
             var options = new ModuleWriterOptions(DeobfuscatorContext.Module);
             options.MetadataLogger = DummyLogger.NoThrowInstance;

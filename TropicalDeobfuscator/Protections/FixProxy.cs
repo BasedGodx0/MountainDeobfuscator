@@ -112,37 +112,134 @@ namespace TropicalDeobfuscator.Protections
 
         }
 
+
+        private static float GetProxyFloat(MethodDef method)
+        {
+            return (float)method.Body.Instructions[0].Operand;
+        }
+
+        private static bool IsProxyFloat(MethodDef method)
+        {
+            return method.HasBody
+                && method.Body.HasInstructions
+                && (method.ReturnType == Module.CorLibTypes.Single
+                && method.Body.Instructions.Count == 2)
+                && method.Body.Instructions[0].OpCode == OpCodes.Ldc_R4;
+        }
+
+        public static int ProxyFloat()
+        {
+            int Deobfuscated = 0;
+            foreach (TypeDef type in Module.GetTypes())
+            {
+                foreach (MethodDef method in type.Methods.ToArray())
+                {
+                    if (!method.HasBody && !method.Body.HasInstructions)
+                        continue;
+
+
+                    var instr = method.Body.Instructions;
+                    for (int i = 0; i < instr.Count; i++)
+                    {
+                        if (instr[i].OpCode == OpCodes.Call)
+                        {
+                            Instruction instruction = instr[i];
+                            if (instruction.Operand is MethodDef)
+                            {
+                                MethodDef methodx = (MethodDef)instruction.Operand;
+                                if (IsProxyFloat(methodx))
+                                {
+                                    float proxyFloat = GetProxyFloat(methodx);
+                                    instruction.OpCode = OpCodes.Ldc_R4;
+                                    instruction.Operand = proxyFloat;
+                                    type.Remove(methodx);
+                                    Deobfuscated++;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            return Deobfuscated;
+
+        }
+
+
+
+        private static bool GetProxyBool(MethodDef method)
+        {
+            return (bool)method.Body.Instructions[0].Operand;
+        }
+
+        private static bool IsProxyBool(MethodDef method)
+        {
+            return method.HasBody
+                && method.Body.HasInstructions
+                && (method.ReturnType == Module.CorLibTypes.Boolean
+                && method.Body.Instructions.Count == 2)
+                && method.Body.Instructions[0].IsLdcI4();
+        }
+
+        public static int ProxyBool()
+        {
+            int Deobfuscated = 0;
+            foreach (TypeDef type in Module.GetTypes())
+            {
+                foreach (MethodDef method in type.Methods.ToArray())
+                {
+                    if (!method.HasBody && !method.Body.HasInstructions)
+                        continue;
+
+
+                    var instr = method.Body.Instructions;
+                    for (int i = 0; i < instr.Count; i++)
+                    {
+                        if (instr[i].OpCode == OpCodes.Call)
+                        {
+                            Instruction instruction = instr[i];
+                            if (instruction.Operand is MethodDef)
+                            {
+                                MethodDef methodx = (MethodDef)instruction.Operand;
+                                if (IsProxyBool(methodx))
+                                {
+                                    bool proxyValue = GetProxyBool(methodx);
+                                    instruction.OpCode = OpCodes.Ldc_I4;
+                                    instruction.Operand = proxyValue;
+                                    type.Remove(methodx);
+                                    Deobfuscated++;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            return Deobfuscated;
+
+        }
+
+
+
+
+
+
+
+
         private static Instruction GetProxyNewObf(MethodDef method)
         {
             Instruction result;
-            if (method.Body.Instructions[0].Operand is MethodSpec)
+
+            if (method.Body.Instructions[0].OpCode == OpCodes.Newobj)
             {
-                MethodSpec methodX = (MethodSpec)method.Body.Instructions[0].Operand;
                 result = new Instruction
                 {
                     OpCode = OpCodes.Newobj,
-                    Operand = methodX
+                    Operand = method.Body.Instructions[0].Operand 
                 };
+                return result;
             }
-            else if (method.Body.Instructions[0].Operand is IMethod)
-            {
-                IMethod methodX2 = (IMethod)method.Body.Instructions[0].Operand;
-                result = new Instruction
-                {
-                    OpCode = OpCodes.Newobj,
-                    Operand = methodX2
-                };
-            }
-            else
-            {
-                MemberRef methodX3 = (MemberRef)method.Body.Instructions[0].Operand;
-                result = new Instruction
-                {
-                    OpCode = OpCodes.Newobj,
-                    Operand = methodX3
-                };
-            }
-            return result;
+            return null;
         }
 
         private static bool IsProxyNewObj(MethodDef method)

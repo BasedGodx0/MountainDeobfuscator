@@ -46,8 +46,27 @@ namespace TropicalDeobfuscator.Protections
 
                             instr[i + 1].OpCode = OpCodes.Nop;
                             instr[i + 2].OpCode = OpCodes.Nop;
+
+
+                            
+                            Type.Fields.Remove(IntField); //remove junk
+
+                            //clear field.cctor
+                            
+
+
                             Deobfuscated++;
                         }
+
+                        if(Method.Name == ".cctor") //clear field initialization cctor
+                        {
+                            if(instr[i].IsLdcI4() && instr[i + 1].OpCode == OpCodes.Newarr && instr[i + 2].OpCode == OpCodes.Dup && instr[i + 3].OpCode == OpCodes.Ldtoken && instr[i + 4].OpCode == OpCodes.Call && instr[i + 5].OpCode == OpCodes.Stsfld)
+                            {
+                                Method.Body.Instructions.Clear();
+                                Method.Body.Instructions.Add(new Instruction(OpCodes.Ret));
+                            }
+                        }
+
                     }
                 }
             }

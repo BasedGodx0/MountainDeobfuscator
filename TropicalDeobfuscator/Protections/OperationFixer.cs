@@ -36,10 +36,70 @@ namespace TropicalDeobfuscator.Protections
 
             return Deobfuscated;
         }
+        public static int FixAirthmethic() //Add new check
+        {
+            int Deobfuscated = 0;
+
+            var Module = DeobfuscatorContext.Module;
+            foreach (TypeDef TypeDef in Module.GetTypes())
+            {
+                foreach (MethodDef Method in TypeDef.Methods)
+                {
+                    if (!Method.HasBody && !Method.Body.HasInstructions)
+                        continue;
+
+                    var instr = Method.Body.Instructions;
+                    Method.RemoveUnusedNops();
+
+                    for (int i = 0; i < instr.Count; i++)
+                    {
+                        if (instr[i].IsLdcI4() && instr[i + 1].IsLdcI4() && instr[i + 2].isArithmeticOperation())
+                        {
+                            int value1 = instr[i].GetLdcI4Value();
+                            int value2 = instr[i + 1].GetLdcI4Value();
+                            int finalval = 0;
+                            var code = instr[i + 2].OpCode.Code;
+                            try
+                            {
+                                switch (code)
+                                {
+
+                                    case Code.Div:
+                                        finalval = value1 / value2;
+                                        break;
+                                    case Code.Add:
+                                        finalval = value1 + value2;
+                                        break;
+                                    case Code.Sub:
+                                        finalval = value1 - value2;
+                                        break;
+                                }
+                            }
+                            catch { 
+                            }
+
+                            if (finalval != 0)
+                            {
+                                instr[i].OpCode = OpCodes.Ldc_I4;
+                                instr[i].Operand = finalval;
+                                instr[i + 1].OpCode = OpCodes.Nop;
+                                instr[i + 2].OpCode = OpCodes.Nop;
+                            }
+
+                        }
+                    }
+
+
+                    Deobfuscated++;
+                }
+            }
+
+            return Deobfuscated;
+        }
         public static void Cleaner(MethodDef method)
         {
 
-            
+
             BlocksCflowDeobfuscator blocksCflowDeobfuscator = new BlocksCflowDeobfuscator();
             Blocks blocks = new Blocks(method);
 
@@ -49,7 +109,7 @@ namespace TropicalDeobfuscator.Protections
             blocks.RemoveDeadBlocks();
             blocks.RepartitionBlocks();
             blocks.UpdateBlocks();
-          
+
             blocksCflowDeobfuscator.Initialize(blocks);
             blocksCflowDeobfuscator.Deobfuscate();
             blocks.RepartitionBlocks();
@@ -60,7 +120,7 @@ namespace TropicalDeobfuscator.Protections
 
         }
     }
-    
+
     public static class Extensions
     {
         static List<Code> ArithmeticOpCodes = new List<Code>
@@ -77,7 +137,7 @@ namespace TropicalDeobfuscator.Protections
                 return true;
             return false;
         }
-  
+
         public static void RemoveUnusedNops(this MethodDef MethodDef)
         {
             if (MethodDef.HasBody)
