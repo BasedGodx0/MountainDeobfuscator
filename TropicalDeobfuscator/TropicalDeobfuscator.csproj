@@ -55,10 +55,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="de4dot.blocks">
-      <HintPath>..\..\..\de4dot\Debug\net45\de4dot.blocks.dll</HintPath>
+      <HintPath>..\..\Deobfuscators\TropicalDeobfuscator\TropicalDeobfuscator\bin\x64\Debug\de4dot.blocks.dll</HintPath>
     </Reference>
     <Reference Include="dnlib">
-      <HintPath>..\..\..\de4dot\Debug\net45\dnlib.dll</HintPath>
+      <HintPath>..\..\Deobfuscators\TropicalDeobfuscator\TropicalDeobfuscator\bin\x64\Debug\dnlib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />

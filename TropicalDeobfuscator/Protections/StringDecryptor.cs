@@ -50,7 +50,7 @@ namespace TropicalDeobfuscator.Protections
 
                             object val = ReflectionAssembly.ManifestModule.ResolveMethod(decMethodToken).Invoke(null, new object[] { false });
                             /* ghetto invoke for string since it has tons of junk */
-                            Console.WriteLine("Decrypted " + val.ToString());
+                         //   Console.WriteLine("Decrypted " + val.ToString());
 
                             instr[i].OpCode = OpCodes.Ldstr;
                             instr[i].Operand = val;
@@ -83,7 +83,7 @@ namespace TropicalDeobfuscator.Protections
 
                                 object val = ReflectionAssembly.ManifestModule.ResolveMethod(decMethodToken).Invoke(null,null);
 
-                                Console.WriteLine("Decrypted " + val.ToString());
+                         //       Console.WriteLine("Decrypted " + val.ToString());
 
                                 instr[i].OpCode = OpCodes.Ldc_I4;
                                 instr[i].Operand = val;

@@ -26,7 +26,7 @@ namespace TropicalDeobfuscator.Protections
 
                     for (int i = 0; i < instr.Count; i++)
                     {
-                        if (instr[i].IsLdcI4() && instr[i + 1].OpCode== OpCodes.Call)
+                        if (instr[i].IsLdcI4() && instr[i + 1].OpCode == OpCodes.Call)
                         {
 
                             var meth = instr[i + 1].Operand as MethodDef;
@@ -55,21 +55,14 @@ namespace TropicalDeobfuscator.Protections
         }
         public static bool Decrypt(int A_0)
         {
-            bool result = true;
-            checked
+            for (int i = 2; i <= (int)Math.Round(A_0 / 2.0); i++)
             {
-                int num = (int)Math.Round((double)A_0 / 2.0);
-                int num2 = 2;
-                int num3 = num;
-                for (int i = num2; i <= num3; i++)
+                if (A_0 % i == 0)
                 {
-                    if (A_0 % i == 0)
-                    {
-                        result = false;
-                    }
+                    return false;
                 }
-                return result;
             }
+            return true;
         }
     }
 }
