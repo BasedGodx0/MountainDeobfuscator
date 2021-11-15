@@ -79,6 +79,7 @@
     <Compile Include="Protections\FixProxy.cs" />
     <Compile Include="Protections\OperationFixer.cs" />
     <Compile Include="Protections\RemoveJunk.cs" />
+    <Compile Include="Protections\ResourceDecrypt.cs" />
     <Compile Include="Protections\ShortenNames.cs" />
     <Compile Include="Protections\SizeofDeobfuscator.cs" />
     <Compile Include="Protections\StringDecryptor.cs" />

@@ -54,6 +54,7 @@ namespace TropicalDeobfuscator
             Console.WriteLine("ProxyFloats Fixed : " + FixProxy.ProxyFloat());
             Console.WriteLine("ProxyDouble Fixed : " + FixProxy.ProxyDouble());
 
+            ResourceDecrypt.Fix();
 
             RemoveJunk.Fix();
 
