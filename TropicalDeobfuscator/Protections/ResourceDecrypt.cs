@@ -38,8 +38,8 @@ namespace TropicalDeobfuscator.Protections
                     byte[] asmArray = Dec(memStream.ToArray());
                     Array.Reverse(asmArray);
                     loader = ModuleDefMD.Load(asmArray);
-                   
-                    foreach(var theResources in loader.Resources)
+
+                    foreach (var theResources in loader.Resources)
                     {
                         Module.Resources.Add(theResources);
                     }
